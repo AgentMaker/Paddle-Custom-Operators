@@ -3,19 +3,19 @@ import paddle.nn as nn
 import paddle.nn.functional as F
 
 
-class h_sigmoid(nn.Layer):
+class H_Sigmoid(nn.Layer):
     def __init__(self):
-        super(h_sigmoid, self).__init__()
+        super(H_Sigmoid, self).__init__()
         self.relu = nn.ReLU6()
 
     def forward(self, x):
         return self.relu(x + 3) / 6
 
 
-class h_swish(nn.Layer):
+class H_Swish(nn.Layer):
     def __init__(self):
-        super(h_swish, self).__init__()
-        self.sigmoid = h_sigmoid()
+        super(H_Swish, self).__init__()
+        self.sigmoid = H_Sigmoid()
 
     def forward(self, x):
         return x * self.sigmoid(x)
@@ -31,7 +31,7 @@ class CoordAtt(nn.Layer):
 
         self.conv1 = nn.Conv2D(inp, mip, kernel_size=1, stride=1, padding=0)
         self.bn1 = nn.BatchNorm2D(mip)
-        self.act = h_swish()
+        self.act = H_Swish()
 
         self.conv_h = nn.Conv2D(mip, oup, kernel_size=1, stride=1, padding=0)
         self.conv_w = nn.Conv2D(mip, oup, kernel_size=1, stride=1, padding=0)
