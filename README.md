@@ -5,5 +5,5 @@
 * DropPath
 * H_Sigmoid
 * H_Swish
-* CoordAtt
+* CoordAttention
 * Involution
