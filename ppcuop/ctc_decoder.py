@@ -27,7 +27,15 @@ class CTCDecoder:
         :param text: Text to decode
         :return: result
         """
-        return self.ctc_decoder(text, self.label_dict, self.blank)
+        return self.ctc_decoder(text, self.blank, self.label_dict)
+
+    def batch_decoder(self, texts: List[List[int]]):
+        """
+        batch_decoder
+        :param texts: batch text to decode
+        :return: result
+        """
+        return [self.ctc_decoder(text, self.blank, self.label_dict) for text in texts]
 
     def batch_decoder(self, texts: List[List[int]]):
         """
@@ -38,11 +46,11 @@ class CTCDecoder:
         return [self.ctc_decoder(text, self.label_dict, self.blank) for text in texts]
 
     @staticmethod
-    def ctc_decoder(text: List[int], label_dict: dict, blank: int):
+    def ctc_decoder(text: List[int], blank: int, label_dict: dict = None):
         """
         :param text: Text to decode
-        :param label_dict: A dictionary in the form of {0：“A”, 1: "B", ...}
         :param blank: Separator index
+        :param label_dict: A dictionary in the form of {0：“A”, 1: "B", ...}
         :return: result
         """
 
@@ -50,9 +58,12 @@ class CTCDecoder:
         cache_idx = -1
         for char in text:
             if char != blank and char != cache_idx:
-                result.append(label_dict[char])
+                if label_dict:
+                    result.append(label_dict[char])
+                else:
+                    result.append(char)
             cache_idx = char
-        return "".join(result)
+        return "".join(result) if label_dict else result
 
 
 # Example
