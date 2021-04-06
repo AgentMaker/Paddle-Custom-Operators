@@ -37,6 +37,14 @@ class CTCDecoder:
         """
         return [self.ctc_decoder(text, self.blank, self.label_dict) for text in texts]
 
+    def batch_decoder(self, texts: List[List[int]]):
+        """
+        batch_decoder
+        :param texts: batch text to decode
+        :return: result
+        """
+        return [self.ctc_decoder(text, self.label_dict, self.blank) for text in texts]
+
     @staticmethod
     def ctc_decoder(text: List[int], blank: int, label_dict: dict = None):
         """
