@@ -7,3 +7,4 @@
 * H_Swish
 * CoordAttention
 * Involution
+* CTCDecoder
